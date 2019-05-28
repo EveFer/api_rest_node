@@ -10,8 +10,9 @@ ruta.get('/hola/:name', (req, res)=>{
 
 ruta.post('/users', UserController.create)
 ruta.get('/users', UserController.getAll)
-
-
+ruta.get('/users/:id', UserController.getUser)
+ruta.put('/users/:id', UserController.updateUser)
+ruta.delete('/users/:id', UserController.deleteUser)
 
 
 module.exports = ruta

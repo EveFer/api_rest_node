@@ -23,11 +23,45 @@ const getAll =  (req, res)=>{
             if(err) return res.status(500).send({error:`${err}`})
             if(!users) return res.status(404). send({mensaje: `No existen usuarios` })
 
-            return res.status(200).send({users})
+            return res.status(200).send(users)
+    })
+}
+
+const getUser = (req, res) => {
+    let idUser = req.params.id
+    UserModel.findById({_id: idUser}, (err, user)=>{
+        if(err) return res.status(500).send({mensaje: `${err}`})
+        if(!user) return res.status(404).send({mensaje: `Usuario no encontrado`})
+
+        return res.status(200).send(user)
+    })
+}
+
+const updateUser = (req,res) =>{
+    let idUser = req.params.id
+    let data = req.body
+
+    UserModel.findByIdAndUpdate(idUser, data, {new:true} ,(err, userUpdated)=>{
+        if(err) return res.status(500).send({error: `${err}`})
+
+        return res.status(200).send({user: userUpdated})
+
+    })
+}
+const deleteUser = (req, res) =>{
+    let idUser = req.params.id
+
+    UserModel.findByIdAndDelete(idUser, (err, userDeleted)=>{
+        if(err) return res.status(500).send({error: `${err}`})
+
+        return res.status(200).send({mensaje: `Usuario Eliminado`})
     })
 }
 
 module.exports = {
     create,
-    getAll
+    getAll,
+    getUser,
+    updateUser,
+    deleteUser
 }
