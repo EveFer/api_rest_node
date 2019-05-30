@@ -1,5 +1,6 @@
 const UserModel = require('../models/user')
 const bcrypt = require('bcrypt')
+const token = require('../tokens')
 
 const create = (req, res)=>{
     //console.log(req.body)
@@ -67,7 +68,7 @@ const login = (req, res) =>{
         if(!user) return res.status(404).send({mensaje: `Usuario no encontrado`})
         if(!bcrypt.compareSync(passwordUser, user.password)) return res.status(500).send({mensaje: `Verifique las credenciales`})
     
-        res.status(200).send({token: 'aqui se debe enviar un token'})
+        return res.status(200).send({token: token.createToken(user)})
     })
 }
 
