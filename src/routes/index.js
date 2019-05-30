@@ -13,6 +13,7 @@ ruta.get('/users', UserController.getAll)
 ruta.get('/users/:id', UserController.getUser)
 ruta.put('/users/:id', UserController.updateUser)
 ruta.delete('/users/:id', UserController.deleteUser)
+ruta.post('/login', UserController.login)
 
 
 module.exports = ruta

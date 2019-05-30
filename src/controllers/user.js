@@ -1,4 +1,5 @@
 const UserModel = require('../models/user')
+const bcrypt = require('bcrypt')
 
 const create = (req, res)=>{
     //console.log(req.body)
@@ -58,10 +59,23 @@ const deleteUser = (req, res) =>{
     })
 }
 
+const login = (req, res) =>{
+    let emailUser = req.body.email
+    let passwordUser = req.body.password
+    UserModel.findOne({email: emailUser}, (err, user)=>{
+        if(err) return res.status(500).send({error: `${err}`})
+        if(!user) return res.status(404).send({mensaje: `Usuario no encontrado`})
+        if(!bcrypt.compareSync(passwordUser, user.password)) return res.status(500).send({mensaje: `Verifique las credenciales`})
+    
+        res.status(200).send({token: 'aqui se debe enviar un token'})
+    })
+}
+
 module.exports = {
     create,
     getAll,
     getUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    login
 }
